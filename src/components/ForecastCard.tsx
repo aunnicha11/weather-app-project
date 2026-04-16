@@ -6,8 +6,8 @@ type Props = {
   city: string;
   data: {
     date: string;
-    temp_max: number;
-    temp_min: number;
+    max: number;
+    min: number;
     weathercode: number;
   }[];
 };
@@ -37,8 +37,8 @@ export default function ForecastCard({ city, data }: Props) {
             </div>
 
             <div className="temp">
-            <span className="max">{Math.round(day.temp_max)}°</span>
-            <span className="min">{Math.round(day.temp_min)}°</span>
+            <span className="max">{Math.round(day.max)}°</span>
+            <span className="min">{Math.round(day.min)}°</span>
             </div>
         </div>
         ))}

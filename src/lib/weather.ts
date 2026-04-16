@@ -1,46 +1,88 @@
-export type DailyForecast = {
+type ForecastParams =
+  | string
+  | { latitude: number; longitude: number };
+
+type ForecastDay = {
   date: string;
-  temp_max: number;
-  temp_min: number;
+  max: number;
+  min: number;
   weathercode: number;
 };
 
-export async function get7DayForecast(city: string) {
-  try {
-    // 1. แปลงชื่อเมือง → lat/lon
-    const geoRes = await fetch(
-      `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1`
-    );
+export async function get7DayForecast(params: ForecastParams) {
+  let latitude: number;
+  let longitude: number;
+  let cityName = "Unknown";
+
+  // ✅ city → lat/lon
+    if (typeof params === "string") {
+        const geoRes = await fetch(
+            `https://geocoding-api.open-meteo.com/v1/search?name=${params}&count=1`
+        );
+
+    if (!geoRes.ok) {
+      throw new Error("Geocoding failed");
+    }
+
     const geoData = await geoRes.json();
 
-    if (!geoData.results || geoData.results.length === 0) {
+    if (!geoData.results?.length) {
       throw new Error("City not found");
     }
 
-    const { latitude, longitude, name } = geoData.results[0];
+    latitude = geoData.results[0].latitude;
+    longitude = geoData.results[0].longitude;
+    cityName = geoData.results[0].name;
+  } else {
+    latitude = params.latitude;
+    longitude = params.longitude;
+    cityName = "Current Location";
+  }
 
-    // 2. ดึง forecast 7 วัน
-    const weatherRes = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto`
-    );
+  // ✅ fetch forecast
+  const res = await fetch(
+    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,weathercode&forecast_days=7&timezone=auto`
+  );
 
-    const weatherData = await weatherRes.json();
+  if (!res.ok) {
+    throw new Error("Forecast fetch failed");
+  }
 
-    const forecast: DailyForecast[] = weatherData.daily.time.map(
-      (date: string, i: number) => ({
-        date,
-        temp_max: weatherData.daily.temperature_2m_max[i],
-        temp_min: weatherData.daily.temperature_2m_min[i],
-        weathercode: weatherData.daily.weathercode[i],
-      })
-    );
+  const data = await res.json();
+
+  // ✅ validate data
+  if (!data.daily || !data.daily.time) {
+    throw new Error("Invalid forecast data");
+  }
+
+  const daily = data.daily;
+
+  // ✅ transform
+  type ForecastDay = {
+  date: string;
+  max: number;
+  min: number;
+  weathercode: number;
+};
+
+const forecastArray: ForecastDay[] = daily.time
+  .map((date: string, index: number) => {
+    const max = daily.temperature_2m_max?.[index];
+    const min = daily.temperature_2m_min?.[index];
+
+    if (max == null || min == null) return null;
 
     return {
-      city: name,
-      forecast: forecast.slice(0, 7),
+      date,
+      max,
+      min,
+      weathercode: daily.weathercode?.[index] ?? 0,
     };
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
+  })
+.filter((item: any) => item !== null);
+
+  return {
+    city: cityName,
+    forecast: forecastArray,
+  };
 }
