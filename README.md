@@ -1,36 +1,132 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌦️ The Weather Live App
 
-## Getting Started
+## 📌 Project Summary
 
-First, run the development server:
+**The Weather Live App** เป็น Web Application สำหรับตรวจสอบสภาพอากาศแบบเรียลไทม์และพยากรณ์ล่วงหน้า โดยออกแบบมาให้ใช้งานง่าย รวดเร็ว และมี UI ที่ทันสมัย เหมาะสำหรับผู้ใช้งานทั่วไปและใช้เป็น Portfolio สำหรับนักพัฒนา
+
+แอปนี้ดึงข้อมูลจาก API ภายนอก (Open-Meteo) และแสดงผลในรูปแบบที่เข้าใจง่าย เช่น อุณหภูมิ สภาพอากาศ และแนวโน้มรายวัน
+
+---
+
+## ⚙️ การทำงานของแอป
+
+* ผู้ใช้กรอกชื่อเมือง
+* ระบบทำการแปลงชื่อเมืองเป็นพิกัด (Geocoding)
+* ดึงข้อมูลสภาพอากาศจาก Open-Meteo API
+* แสดงผลข้อมูลแบบ:
+
+  * สภาพอากาศปัจจุบัน
+  * พยากรณ์ล่วงหน้า 7 วัน
+* UI ถูกออกแบบให้สะอาด อ่านง่าย และ Responsive
+
+---
+
+## 🚀 ฟีเจอร์หลัก
+
+### 1. 🔍 ค้นหาสภาพอากาศตามชื่อเมือง
+
+* รองรับการค้นหาหลายประเทศ
+* แปลงชื่อเมืองเป็นพิกัดอัตโนมัติ (Geocoding)
+
+---
+
+### 2. 🌤️ แสดงสภาพอากาศปัจจุบัน
+
+* อุณหภูมิแบบเรียลไทม์
+* คำอธิบายสภาพอากาศ (แดด, ฝน, เมฆ ฯลฯ)
+* Weather Icon แบบ Dynamic
+
+---
+
+### 3. 📅 พยากรณ์อากาศล่วงหน้า 7 วัน
+
+* แสดงผลแบบ Grid Layout
+* ข้อมูลที่แสดง:
+
+  * วัน (Mon, Tue, ...)
+  * อุณหภูมิสูงสุด / ต่ำสุด
+  * ไอคอนสภาพอากาศ
+* UI เน้นความสะอาดและอ่านง่าย
+
+---
+
+### 4. 🎨 Modern UI/UX Design
+
+* ใช้ Grid Layout
+* Card Design พร้อม Shadow และ Hover Effect
+* Responsive รองรับ Mobile
+* ดีไซน์แนว Minimal + Premium
+
+---
+
+### 5. 🌙 Dark / Light Mode
+
+* Toggle เปลี่ยนธีมได้
+* ใช้ CSS Variables ควบคุม Theme
+* ปุ่ม Toggle อยู่มุมบนขวา (Fixed Position)
+
+---
+
+### 6. ⚡ Performance & Structure
+
+* ใช้ **Next.js Server Components** สำหรับ Fetch Data
+* แยก Component ชัดเจน:
+
+  * `SearchBox`
+  * `WeatherCard`
+  * `ForecastCard`
+* ใช้ **TypeScript** เพิ่มความปลอดภัยของโค้ด
+
+---
+
+## 🛠️ เทคโนโลยีที่ใช้
+
+| Category | Technology           |
+| -------- | -------------------- |
+| Frontend | Next.js (App Router) |
+| Language | TypeScript           |
+| Styling  | CSS (Custom)         |
+| API      | Open-Meteo           |
+| Tooling  | ESLint               |
+
+---
+
+## ⭐ จุดเด่นของโปรเจกต์
+
+* โครงสร้างโค้ด Scalable และ Maintainable
+* UI ทันสมัย เหมาะสำหรับ Portfolio
+* แยก Logic และ Presentation ชัดเจน
+* รองรับการต่อยอดฟีเจอร์ในอนาคต
+
+---
+
+## 🔮 แนวทางพัฒนาต่อ (Future Improvements)
+
+* เพิ่ม **Hourly Forecast**
+* เพิ่ม **Loading Skeleton**
+* ใช้ Animation (เช่น Framer Motion)
+* เพิ่มระบบ **Favorite Cities**
+* พัฒนาเป็น **PWA** (รองรับการติดตั้งบนมือถือ)
+
+---
+
+## 📷 Preview (Optional)
+
+> สามารถเพิ่ม Screenshot หรือ GIF ของแอปในส่วนนี้
+
+---
+
+## 📦 Installation (Optional)
 
 ```bash
+git clone <your-repo-url>
+cd weather-live-app
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📄 License
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is for educational and portfolio purposes.
