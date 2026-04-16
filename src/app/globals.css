@@ -1,13 +1,9 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --card-bg: #ffffff;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --card-bg: #1e293b;
 }
 
 html {
@@ -21,29 +17,283 @@ body {
 }
 
 body {
-  min-height: 100%;
+  /* min-height: 100%;
   display: flex;
   flex-direction: column;
   color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background); */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(to bottom, #f8fafc, #e2e8f0);
 }
 
+/* Reset */
 * {
   box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  font-family: "Inter", sans-serif;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+/* Background */
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+/* Glass Card */
+.card {
+  width: 100%;
+  max-width: 900px;
+  padding: 32px;
+  border-radius: 24px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+
+  /* glass effect */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  /* shadow */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+
+  /* animation */
+  animation: fadeIn 0.6s ease;
+
+  /* smooth hover */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* Title */
+.title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 24px;
+  letter-spacing: 1px;
+}
+
+/* Search */
+.searchBox {
+  display: flex;
+  gap: 10px;
+}
+
+.searchBox input {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+.searchBox input::placeholder {
+  color: #ccc;
+}
+
+.searchBox input:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+/* Button */
+.searchBox button {
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: none;
+  background: white;
+  color: black;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.searchBox button:hover {
+  background: #e5e5e5;
+}
+
+/* Result */
+.result {
+  margin-top: 30px;
+  text-align: center;
+}
+
+/* Weather Info */
+.weatherInfo h2 {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.temp {
+  font-size: 48px;
+  font-weight: 300;
+}
+
+/* States */
+.loading {
+  color: #ccc;
+}
+
+.error {
+  color: #f87171;
+}
+
+/* THEME */
+body.dark {
+  background: linear-gradient(135deg, #0f172a, #000);
+  color: white;
+}
+
+body.light {
+  background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+  color: #111;
+}
+
+/* card ปรับตาม theme */
+body.dark .card {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+body.light .card {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+body.light .searchBox input {
+  background: rgba(0, 0, 0, 0.05);
+  color: #111;
+}
+
+body.light .searchBox input::placeholder {
+  color: #666;
+}
+
+/* toggle button */
+.themeToggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.theme-toggle {
+  transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+}
+
+.weatherInfo {
+  margin-top: 10px;
+}
+
+.forecast-container {
+  max-width: 1000px;
+  margin: 80px auto;
+  padding: 20px;
+}
+
+/* TITLE */
+.forecast-title {
+  font-size: 26px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* GRID CORE */
+.forecast-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 🔥 fix 7 ช่อง */
+  gap: 16px;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .forecast-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .forecast-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* CARD */
+.forecast-card {
+  background: var(--card-bg);
+  border-radius: 18px;
+  padding: 18px 12px;
+
+  text-align: center;
+
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.06);
+  transition: all 0.25s ease;
+}
+
+/* HOVER EFFECT */
+.forecast-card:hover {
+  transform: translateY(-6px) scale(1.02);
+}
+
+/* DAY */
+.day {
+  font-size: 13px;
+  opacity: 0.6;
+}
+
+/* DATE */
+.date {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 4px 0 8px;
+}
+
+/* ICON */
+.icon {
+  font-size: 30px;
+  margin: 8px 0;
+}
+
+/* TEMP */
+.temp {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  font-size: 15px;
+}
+
+.temp .max {
+  font-weight: 600;
+}
+
+.temp .min {
+  opacity: 0.5;
 }
