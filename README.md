@@ -117,7 +117,7 @@
 
 ---
 
-## 📦 Installation (Optional)
+## 📦 Installation
 
 ```bash
 git clone <your-repo-url>
