@@ -112,7 +112,8 @@
 
 ## 📷 Preview (Optional)
 
-> สามารถเพิ่ม Screenshot หรือ GIF ของแอปในส่วนนี้
+<img width="3360" height="1732" alt="image" src="https://github.com/user-attachments/assets/34aeed72-9625-434e-a621-98efa5bbce86" />
+
 
 ---
 
